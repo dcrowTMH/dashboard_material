@@ -11,7 +11,23 @@ It it great to practice the coding skill and data handling skill with the flow o
 
 All the materials was used to be a reference for my routine work/ future work as well.
 
+All the python files was used to clean the mindset of dealing with the time series data.
+
+All the function was defined to handle same type/ kinds of data and encapsulated into classes later.
+
+Data is special for the related COVID-19 data set and adjustment is needed for other set of data.
+
+After that, HTML & CSS was used to build the dashboard and deploy for production.
+
 1) prepare.py
 - Demostration of how to get ready the code for getting data, data cleaning, transformation & smoothing
-- Class was used
 - Dealing with bad data for time series (cummax & mask function)
+
+2) smooth_data.py
+- Used for smooth the data for time series data type
+- Applied lowess function to smooth the data for variation
+- Data can be variated due to the weekends/ reporting/ holidays
+
+3) exponential_growth_decline_model.py
+- Using simple exponential fucntion to demostrate the growth or decline of the data
+- make the prediction , correct the prediction & plot it for visualization
