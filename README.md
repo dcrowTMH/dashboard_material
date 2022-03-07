@@ -31,3 +31,9 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 3) exponential_growth_decline_model.py
 - Using simple exponential fucntion to demostrate the growth or decline of the data
 - make the prediction , correct the prediction & plot it for visualization
+
+4) logistic_growth_model.py
+- Using logistic function/ sigmoid fuction for the prediction
+- Build a model with Assymptotes of beginning & end of the prediction
+- Parameters for vertical/ horizontal moving & upper asymptote & growth rate
+- Generalized logistic function to prevent overestimated/ underestimated
