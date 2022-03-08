@@ -37,3 +37,7 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 - Build a model with Assymptotes of beginning & end of the prediction
 - Parameters for vertical/ horizontal moving & upper asymptote & growth rate
 - Generalized logistic function to prevent overestimated/ underestimated
+
+5) modeling_new_waves.py
+- Limit the bound of upper asymptote (L) to obtain accurate prediction
+- Treat the single wave without previous data / Get rid the noise from the previous time series data
