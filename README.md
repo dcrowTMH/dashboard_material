@@ -41,3 +41,9 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 5) modeling_new_waves.py
 - Limit the bound of upper asymptote (L) to obtain accurate prediction
 - Treat the single wave without previous data / Get rid the noise from the previous time series data
+
+6) models.py
+- model included the function from previous .py files & encapsulate it into Classes
+- 10032022 finish Class __init__, get_last_date, init_dictionaries & data smooth part
+- Keep clerify different parts within the model
+- Good reference to build up a model for the future
