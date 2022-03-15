@@ -210,3 +210,17 @@ class CasesModel:
             self.convert_to_df(gk)
         # combine the original actual value with predicted result
         self.combine_actual_with_pred()
+        
+    def plot_prediction(self, group, area, **kwargs):
+        # get world/USA cases data for specific area
+        group_kind = f'{group}_cases'
+        actual = self.data[group_kind][area]
+        # optain the result from the corespond dictionaries
+        pred = self.pred_cumulative[group_kind][area]
+        # get the date for the days used for train before last date
+        first_date = self.last_date - pd.Timedelta(self.n_train, 'D')
+        # get the date for the days with predicted days
+        last_pred_date = self.last_date + pd.Timedelta(self.n_pred, 'D')
+        # plot the actual data from last_date - n_train to the last prediction date & the predicted result
+        acutal.loc[first_date:last_pred_date].plot(label='Actual', **kwargs)
+        pred.plot(label = 'Predicted').legend()
