@@ -18,6 +18,27 @@ def optimize_func(params, x, y, model):
     return error
 
 class CasesModel:
+    """
+    model used to smooth, train and predict the cases number for all area in world/ USA
+    
+    Parameters
+    ------------
+    model: function used for prediction (general_logistic_shift was used)
+    
+    data: dictionaries of data for all areas - PreparaData().run()
+    
+    last_date: str, last date to be used for training
+    
+    n_train: int, number of days used for training
+    
+    n_smooth: int, number of points used for LOWESS function
+    
+    n_pred: int, number of days for prediction to make
+    
+    L_n_min, L_n_max: int, min/max days to estimate L_min/L_max
+    
+    **kwargs: extra keyword for least_squares function
+    """
     def __init__(self, model, data, last_date, n_train, n_smooth, n_pred, L_n_min, L_n_max, **kwarg):
         """
         """
@@ -223,4 +244,104 @@ class CasesModel:
         last_pred_date = self.last_date + pd.Timedelta(self.n_pred, 'D')
         # plot the actual data from last_date - n_train to the last prediction date & the predicted result
         acutal.loc[first_date:last_pred_date].plot(label='Actual', **kwargs)
+        pred.plot(label = 'Predicted').legend()
+        
+class DeathsModel:
+    """
+    model used to predict the death number base on the CFR value
+    
+    Parameters
+    -----------
+    data: dictionaries of data for all area, PreparaData().run()
+    
+    last_date: str, last date to be used for training
+    
+    cm: CasesModel instance after calling 'run' method
+    
+    lag: int, number of day between cases and deaths, for CFR calculation
+    
+    period: int, window size of numbers of days to calculate CFR
+    """
+    def __init__(self, data, last_date, cm, lag, period):
+        self.data = data
+        self.last_date = self.get_last_date(last_date)
+        self.cm = cm
+        self.lag = lag
+        self.period = period
+        self.pred_daily = {}
+        self.pred_cumulative = {}
+        
+        # Dictionaries to hold the DataFrame of combined values
+        self.combined_daily = {}
+        self.combined_cumulative = {}
+        
+    def get_last_date(self, last_date):
+        # return the last date from the cases data if no input for last_date
+        if last_date is None:
+            return self.data['world_cases'].index[-1]
+        # convert the string into pd.Timestamp data type
+        else:
+            retunr pd.Timestamp(last_date)
+            
+    def calculate_cfr(self):
+        # get the first day of window for calculate CFR
+        first_day_deaths = self.last_date - pd.Timedelta(f'{self.period}D')
+        # get the last day of cases for the range between cases and deaths
+        last_day_cases = self.last_date - pd.Timedelta(f'{self.lag}D')
+        # get the first day of the window of the range between cases and deaths
+        first_day_cases = last_day_cases - pd.Timedelta(f'{self.period}D')
+        
+        # dictionaries to store the cfr value for each group
+        cfr = {}
+        for group in GROUPS:
+            # calculate the cfr value for group with the total number of deaths & cases with the range window
+            deaths = self.data[f'{group}_deaths']
+            cases = self.data[f'{group}_cases']
+            deaths_total = deaths.loc[self.last_date] - deaths.loc[first_data_deaths]
+            cases_total = cases.loc[last_day_cases] - cases.loc[first_day_cases]
+            cfr[group] = (deaths_total / cases_toal).fillna(0.01)
+        return cfr
+    
+    def run(self):
+        # calculate the cfr value for each group at the beginning
+        self.cfr = self.calculate_cfr()
+        for group in GROUPS:
+            # get the smoothed data from the CasesModel instance with selected window
+            group_cases = f'{group}_cases'
+            group_deaths = f'{group}_deaths'
+            cfr_start_date = self.last_date - pd.Timedelta('{self.lag}D')
+            
+            daily_cases_smoothed = self.cm.combined_daily_s[group_cases]
+            # get the prediction by multiply the cfr value to group cases
+            pred_daily = daily_cases_smoothed[cfr_start_date:] * self.cfr[group]
+            pred_daily = pred_daily.iloc[:self.cm.n_pred]
+            pred_daily.index = self.cm.pred_daily[group_cases].index
+            # get the mean by rolling for two week to smooth the prediction
+            for i in range(5):
+                pred_daily = pred_daily.rolling(14, min_periods = 1, center = True).mean()
+            # turn the prediction into interger type
+            pred_daily = pred_daily.round(0).astype('int')
+            # store the data into the group
+            self.pred_daily[group_deaths] = pred_daily
+            # get the cumulative result by adding the last deaths
+            last_deaths = self.data[group_deaths].loc[self.last_date]
+            self.pred_cumulative[group_deaths] = pred_daily.cumsum() + last_deaths
+        self.combine_actual_with_pred()
+        
+    def combine_actual_with_pred(self):
+        # combine the actual value with predicted result and store in the combined dictionaries
+        for gk, df_pred in self_pred_cumulative.items():
+            df_actual = self.data[gk][:self.last_date]
+            df_comb = pd.concat((df_actual,df_pred))
+            self.combined_cumulative[gk] = df_comb
+            self.combined_daily[gk] = df_comb.diff.fillna(df_comb.iloc[0]).astype('int')
+            
+    def plot_prediction(self, group, area, **kwargs):
+        # plot the data with actual data and the predicted data
+        group_kind = f'{group}_deaths'
+        actual = self.data[group_kind][area]
+        pred = self.pred_cumulative[group_kind][area]
+        first_date = self.last_date - pd.Timedelta(60, 'D')
+        last_pred_date = self.last_date - pd.Timedelta(30, 'D')
+        actual.loc[first_date:last_pred_date].plot(label = 'Actual', **kwargs)
         pred.plot(label = 'Predicted').legend()
