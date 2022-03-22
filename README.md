@@ -49,3 +49,9 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 - Good reference to build up a model for the future
 - 16032022 finish Class for case prediction including convert_to_df & combine_actual_with_pred function for ploting
 - 16032022 finish Clasee for cases & deaths prediction and ready to next part
+
+7) plotly_area_bar.py
+- Part for the Plotly library finished
+- Great use of the fig, subplot, add_traces, update_layout/trace/annotatoin
+- Specify the row and col for subplot
+- Choropleth maps is great to show the geometry data and creat the text for better interaction with HTML code
