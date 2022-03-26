@@ -55,3 +55,11 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 - Great use of the fig, subplot, add_traces, update_layout/trace/annotatoin
 - Specify the row and col for subplot
 - Choropleth maps is great to show the geometry data and creat the text for better interaction with HTML code
+
+8) html_format.html
+- 27032022 finish part of html
+- Understand the element & html syntax
+- Practice of some element with empty element
+- Important to know about block element and inline element
+- Div element was used to group the element for further styling by CSS
+- Next part will be styling with CSS
