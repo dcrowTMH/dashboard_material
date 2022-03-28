@@ -1,0 +1,89 @@
+<style>
+    div {
+        border: 4px dashed blue;
+    }
+    
+    p {
+        text-align:center;
+    }
+    
+    .item {
+        margin: 0px 20px 0px 20px;
+    }
+    
+    .item2 {
+        margin: 0px;
+    }
+    .container {
+        display:flex;
+        width: 500px;
+        justify-content:space-evenly;
+    }
+    
+    .container2 {
+        display:grid;
+        width: 500px;
+        grid-template-areas:
+            "left topleft topright right"
+            "left bottom bottom right";
+    }
+    
+    #item1 {
+        flex-grow:1;
+        background-color:#4C78A8;
+    }
+    
+    #item2 {
+        flex-grow:1;
+        background-color:#A56153;
+    }
+    
+    #item3 {
+        flex-grow:1;
+        background-color:#53A559;
+    }
+    
+    #item4 {
+        grid-area:topleft;
+        background-color:#53A5A3;
+    }
+    
+    #item5 {
+        grid-area:topright;
+        background-color:#8A53A5;
+    }
+    
+    #item6 {
+        grid-area:bottom;
+        background-color:#A5538F;
+    }
+</style>
+
+<h1>CSS format</h1>
+<h2>Flexbox layout</h2>
+
+<div class=container>
+    <div class=item id=item1>
+        <p>item 1</p>
+    </div>
+    <div class=item id=item2>
+        <p>item 2</p>
+    </div>
+    <div class=item id=item3>
+        <p>item 3</p>
+    </div>
+</div>
+
+<h2>Grid layout</h2>
+
+<div class=container2>
+    <div class=item2 id=item4>
+        <p>item 4</p>
+    </div>
+    <div class=item2 id=item5>
+        <p>item 5</p>
+    </div>
+    <div class=item2 id=item6>
+        <p>item 6</p>
+    </div>
+</div>
