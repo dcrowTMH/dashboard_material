@@ -63,3 +63,8 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 - Important to know about block element and inline element
 - Div element was used to group the element for further styling by CSS
 - Next part will be styling with CSS
+- 29032022 finish part of CSS
+- Learnt basic CSS syntax
+- Learnt to change block to inline
+- Understand the Container & Item
+- Understand the Flexbox & Grid layout
