@@ -68,3 +68,7 @@ After that, HTML & CSS was used to build the dashboard and deploy for production
 - Learnt to change block to inline
 - Understand the Container & Item
 - Understand the Flexbox & Grid layout
+
+9) dash_board.py
+- 30032022 finished design of dashboard
+- Next step: callback for the dashboard(interactive)
